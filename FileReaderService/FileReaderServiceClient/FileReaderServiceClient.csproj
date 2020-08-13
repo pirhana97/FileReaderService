@@ -37,6 +37,7 @@
       <HintPath>..\packages\sautinsoft.document.4.5.6.17\lib\net461\SautinSoft.Document.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +66,10 @@
     <ProjectReference Include="..\FileReaderService\FileReaderService.csproj">
       <Project>{F2A30DC0-7205-400E-A557-A34069003DA3}</Project>
       <Name>FileReaderService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileReaderService_ConsoleLogger\FileReaderService_ConsoleLogger.csproj">
+      <Project>{f887c0e6-6f68-490d-b562-ea55cd4a2635}</Project>
+      <Name>FileReaderService_ConsoleLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

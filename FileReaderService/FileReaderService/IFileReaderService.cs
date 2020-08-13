@@ -20,6 +20,7 @@ namespace FileReaderService
         string Echo(string input);
 
         [OperationContract()]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
         string GetFileAttributes(string filePath);
 
         [OperationContract()]

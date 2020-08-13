@@ -11,10 +11,16 @@ using System.Net;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
+using FileReaderService_ConsoleLogger;
 
 namespace FileReaderServiceClient
 {
-    class Program
+
+
+
+
+
+    public class Program
     {
 
         #region IDispatchMessageInspector Members
@@ -36,53 +42,48 @@ namespace FileReaderServiceClient
             IFileReaderServiceCallback callback = new FileReaderServiceCallback();
             InstanceContext context = new InstanceContext(callback);
 
-            FileReaderServiceProxy.FileReaderServiceProxy proxy = new FileReaderServiceProxy.FileReaderServiceProxy(context);
+            string request = string.Empty;
+            string response = string.Empty;
 
-
-
-            Console.WriteLine("Client is running at " + DateTime.Now.ToString());
-            Console.WriteLine("Enter the filepath: ");
-            string filePath = Console.ReadLine();
-            Console.WriteLine(proxy.Echo(filePath));
-            Console.WriteLine(proxy.GetFileAttributes(filePath));
-            Console.WriteLine(proxy.PerCall_FileReader());
-
-            Uri baseAddress = new Uri("http://localhost:8090/FileReaderWCFService/FileReaderService");
-            ServiceHost serviceHost = new ServiceHost(typeof(FileReaderService.FileReaderService), baseAddress);
-
-            ServiceEndpoint endpoint = serviceHost.AddServiceEndpoint(
-                typeof(IFileReaderService),
-                new WSHttpBinding(),
-                "FileReaderServiceObject");
-
-
-            Console.WriteLine("Address: {0}", endpoint.Address);
-
-            // Enable Mex
-            //  ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-            //  smb.HttpGetEnabled = true;
-            //   serviceHost.Description.Behaviors.Add(smb);
-
-            //   serviceHost.Open();
-            //  endpoint.Behaviors.Add(new MyEndpointBehavior());
-
-
-            Console.WriteLine("List all behaviors:");
-              foreach (IEndpointBehavior behavior in endpoint.Behaviors)
-             {
-                 Console.WriteLine("Behavior: {0}", behavior.ToString());
-              }
-
-
-
-
-
-            string sessionID = proxy.InnerChannel.SessionId;
-            Console.WriteLine("Session ID: "+sessionID);
-            Console.ReadLine();
+            FileReaderService.FileReaderService sc = new FileReaderService.FileReaderService();
+            
 
             
 
+
+            using (FileReaderServiceProxy.FileReaderServiceProxy proxy = new FileReaderServiceProxy.FileReaderServiceProxy(context))
+                {
+                ConsoleLogger logger = new ConsoleLogger();
+
+                try
+                {
+                    
+                    logger.print_To_Client_FileReaderService();
+
+                    logger.print_File_Info();
+
+                    logger.print_Session_Info();
+
+                }
+
+                catch (FaultException<ApplicationException> e)
+                {
+                    Console.WriteLine("FaultException<>: " + e.Detail.GetType().Name + " - " + e.Detail.Message);
+                }
+                catch (FaultException e)
+                {
+                    Console.WriteLine("FaultException: " + e.GetType().Name + " - " + e.Message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("EXCEPTION: " + e.GetType().Name + " - " + e.Message);
+
+                }
+
+            }
+
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
 
         }
     }
@@ -112,3 +113,20 @@ namespace FileReaderServiceClient
 //// Decode and display the response.
 //Console.WriteLine("\nResponse received was {0}",
 //            Encoding.ASCII.GetString(responseArray));
+
+
+
+// Enable Mex
+//  ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+//  smb.HttpGetEnabled = true;
+//   serviceHost.Description.Behaviors.Add(smb);
+
+//   serviceHost.Open();
+//  endpoint.Behaviors.Add(new MyEndpointBehavior());
+
+
+//  Console.WriteLine("List all behaviors:");
+// foreach (IEndpointBehavior behavior in endpoint.Behaviors)
+//{
+//    Console.WriteLine("Behavior: {0}", behavior.ToString());
+// }

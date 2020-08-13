@@ -6,22 +6,28 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.IO;
 
+
 namespace FileReaderService
 {
    // [ServiceBehavior(ConcurrencyMode =ConcurrencyMode.Multiple)]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode =ConcurrencyMode.Single, TransactionIsolationLevel = System.Transactions.IsolationLevel.Serializable,  
+    TransactionTimeout = "00:00:45")]
     [TraceServiceBehavior]
+    [ConsoleHeaderOutputBehavior]
     public class FileReaderService : IFileReaderService
     {
         int fileReader_Count = 0;
 
         
 
+        [OperationBehavior(TransactionScopeRequired = true)]
         public string Echo(string input)
         {
             return $"Recieved message from client {input}";
         }
 
+
+        [OperationBehavior(TransactionScopeRequired = true)]
         public string GetFileAttributes(string filePath)
         {
             FileInfo fi = new System.IO.FileInfo(filePath);
