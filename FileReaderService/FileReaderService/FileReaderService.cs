@@ -9,16 +9,17 @@ using System.IO;
 
 namespace FileReaderService
 {
-   // [ServiceBehavior(ConcurrencyMode =ConcurrencyMode.Multiple)]
+   //[ServiceBehavior(ConcurrencyMode =ConcurrencyMode.Multiple)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode =ConcurrencyMode.Single, TransactionIsolationLevel = System.Transactions.IsolationLevel.Serializable,  
     TransactionTimeout = "00:00:45")]
     [TraceServiceBehavior]
-    [ConsoleHeaderOutputBehavior]
+ //  [ConsoleHeaderOutputBehavior]
     public class FileReaderService : IFileReaderService
     {
         int fileReader_Count = 0;
 
-        
+
+
 
         [OperationBehavior(TransactionScopeRequired = true)]
         public string Echo(string input)

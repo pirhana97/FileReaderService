@@ -52,7 +52,7 @@ namespace FileReaderServiceClient
 
 
             using (FileReaderServiceProxy.FileReaderServiceProxy proxy = new FileReaderServiceProxy.FileReaderServiceProxy(context))
-                {
+            { 
                 ConsoleLogger logger = new ConsoleLogger();
 
                 try
@@ -81,6 +81,8 @@ namespace FileReaderServiceClient
                 }
 
             }
+
+
 
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();

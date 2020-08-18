@@ -18,7 +18,8 @@ namespace FileReaderService
             Message originalMessage = buffer.CreateMessage();
             foreach (MessageHeader h in originalMessage.Headers)
             {
-                Console.WriteLine("\n{0}\n", h);
+                // Console.WriteLine("\n{0}\n", h);
+                Console.WriteLine(h);
             }
             return null;
 
@@ -26,13 +27,16 @@ namespace FileReaderService
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
+
             MessageBuffer buffer = reply.CreateBufferedCopy(0x7fffffff);
             reply = buffer.CreateMessage();
             Message originalMessage = buffer.CreateMessage();
             foreach (MessageHeader h in originalMessage.Headers)
             {
-                Console.WriteLine("\n{0}\n", h);
+                //  Console.WriteLine("\n{0}\n", h);
+                Console.WriteLine(h);
             }
+
         }
     }
 }

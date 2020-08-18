@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -9,6 +10,9 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace FileReaderService
 {
@@ -18,25 +22,43 @@ namespace FileReaderService
         private Message TraceMessage(MessageBuffer buffer)
         {
             Message msg = buffer.CreateMessage();
-            StringBuilder sb = new StringBuilder("Message content");
+            StringBuilder sb = new StringBuilder("Message Content :");
             sb.Append(msg.ToString());
             Console.WriteLine(sb.ToString());
+
+            string message = sb.ToString();
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(message);
+            xmlDocument.Save("SOAPXML.xml");
+
+           // StringReader stringReader = new StringReader(message);
+            
+
+
             return buffer.CreateMessage();
+          
         }
 
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
-            request = TraceMessage(request.CreateBufferedCopy(Int32.MaxValue));
+          //  request = TraceMessage(request.CreateBufferedCopy(Int32.MaxValue));
+            Console.WriteLine("Request Received");
+
+            
+
             return null;
         }
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
-            reply = TraceMessage(reply.CreateBufferedCopy(Int32.MaxValue));
+           //  reply = TraceMessage(reply.CreateBufferedCopy(Int32.MaxValue));
+            Console.WriteLine("Sending Reply..");
         }
+
     }
 
-    public class TraceMessageBehavior : IEndpointBehavior
+    [AttributeUsage(AttributeTargets.Class)]
+    public class TraceMessageBehavior : Attribute, IEndpointBehavior
     {
         public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
         { }
@@ -66,17 +88,17 @@ namespace FileReaderService
             return new TraceMessageBehavior();
         }
     }
-  
+
 
 
     [AttributeUsage(AttributeTargets.Class)]
     class TraceServiceBehavior : Attribute, IServiceBehavior
     {
-       
+
 
         public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase, Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters)
         {
-          
+
         }
 
         public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
@@ -95,5 +117,5 @@ namespace FileReaderService
         }
     }
 
-    
+
 }

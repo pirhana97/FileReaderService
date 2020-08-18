@@ -28,6 +28,8 @@ namespace FileReaderServiceProxy
             return base.Channel.GetFileAttributes(filePath);
         }
 
+
+
         public string PerCall_FileReader()
         {
             return base.Channel.PerCall_FileReader();

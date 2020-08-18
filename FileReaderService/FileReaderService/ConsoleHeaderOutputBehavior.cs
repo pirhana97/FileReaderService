@@ -16,7 +16,7 @@ namespace FileReaderService
     {
         public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase, Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters)
         {
-            
+
         }
 
         public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
@@ -37,7 +37,7 @@ namespace FileReaderService
 
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
         {
-            
+
         }
     }
 }

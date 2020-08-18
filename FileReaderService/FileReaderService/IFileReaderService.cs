@@ -25,8 +25,9 @@ namespace FileReaderService
 
         [OperationContract()]
         string PerCall_FileReader();
-        }
 
+    }
 
+  
     
 }
