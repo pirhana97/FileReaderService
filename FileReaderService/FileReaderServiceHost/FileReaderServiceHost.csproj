@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SoapFormatter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=64d05efcff27afd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\SoapFormatter.1.0.11\lib\netstandard2.0\SoapFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -52,6 +55,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FileReaderService\FileReaderService.csproj">

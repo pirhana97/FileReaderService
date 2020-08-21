@@ -46,43 +46,48 @@ namespace FileReaderServiceClient
             string response = string.Empty;
 
             FileReaderService.FileReaderService sc = new FileReaderService.FileReaderService();
-            
-
-            
 
 
-            using (FileReaderServiceProxy.FileReaderServiceProxy proxy = new FileReaderServiceProxy.FileReaderServiceProxy(context))
-            { 
-                ConsoleLogger logger = new ConsoleLogger();
-
-                try
+            #region ParallelTasks
+            Parallel.Invoke(
+                ()=>
                 {
-                    
-                    logger.print_To_Client_FileReaderService();
 
-                    logger.print_File_Info();
 
-                    logger.print_Session_Info();
+                    using (FileReaderServiceProxy.FileReaderServiceProxy proxy = new FileReaderServiceProxy.FileReaderServiceProxy(context))
+                    {
+                        ConsoleLogger logger = new ConsoleLogger();
 
+                        try
+                        {
+
+                            logger.print_To_Client_FileReaderService();
+
+                            logger.print_File_Info();
+
+                            logger.print_Session_Info();
+
+                        }
+
+                        catch (FaultException<ApplicationException> e)
+                        {
+                            Console.WriteLine("FaultException<>: " + e.Detail.GetType().Name + " - " + e.Detail.Message);
+                        }
+                        catch (FaultException e)
+                        {
+                            Console.WriteLine("FaultException: " + e.GetType().Name + " - " + e.Message);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("EXCEPTION: " + e.GetType().Name + " - " + e.Message);
+
+                        }
+
+                    }
                 }
 
-                catch (FaultException<ApplicationException> e)
-                {
-                    Console.WriteLine("FaultException<>: " + e.Detail.GetType().Name + " - " + e.Detail.Message);
-                }
-                catch (FaultException e)
-                {
-                    Console.WriteLine("FaultException: " + e.GetType().Name + " - " + e.Message);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EXCEPTION: " + e.GetType().Name + " - " + e.Message);
-
-                }
-
-            }
-
-
+            );
+            #endregion
 
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
@@ -131,4 +136,4 @@ namespace FileReaderServiceClient
 // foreach (IEndpointBehavior behavior in endpoint.Behaviors)
 //{
 //    Console.WriteLine("Behavior: {0}", behavior.ToString());
-// }
+//}

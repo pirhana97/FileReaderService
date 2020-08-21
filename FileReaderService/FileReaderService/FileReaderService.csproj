@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SoapFormatter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=64d05efcff27afd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\SoapFormatter.1.0.11\lib\netstandard2.0\SoapFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -52,9 +55,13 @@
     <Compile Include="IFileReaderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraceServiceBehavior.cs" />
+    <Compile Include="ValidateFileSizeException.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.Remoting.Contexts;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
@@ -13,6 +16,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Soap;
+using System.Collections;
+using System.Runtime.Serialization;
 
 namespace FileReaderService
 {
@@ -22,37 +28,64 @@ namespace FileReaderService
         private Message TraceMessage(MessageBuffer buffer)
         {
             Message msg = buffer.CreateMessage();
-            StringBuilder sb = new StringBuilder("Message Content :");
+            StringBuilder sb = new StringBuilder();
             sb.Append(msg.ToString());
+
+            int length = msg.ToString().Length;
+            if(length > 1000)
+            {
+                sb.Append("FileSize"+length);
+            }
+
             Console.WriteLine(sb.ToString());
 
-            string message = sb.ToString();
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(message);
-            xmlDocument.Save("SOAPXML.xml");
-
-           // StringReader stringReader = new StringReader(message);
-            
-
-
-            return buffer.CreateMessage();
+    
+            return buffer.CreateMessage(); ;
+          
           
         }
 
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
-          //  request = TraceMessage(request.CreateBufferedCopy(Int32.MaxValue));
-            Console.WriteLine("Request Received");
+            //  request = TraceMessage(request.CreateBufferedCopy(Int32.MaxValue));
+            Console.WriteLine("\nRequest Received");
 
-            
 
             return null;
         }
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
-           //  reply = TraceMessage(reply.CreateBufferedCopy(Int32.MaxValue));
-            Console.WriteLine("Sending Reply..");
+            Console.WriteLine("\nSending Reply..");
+            //  reply = TraceMessage(reply.CreateBufferedCopy(Int32.MaxValue));
+            string rep = reply.ToString();
+           XmlDocument xmlDocument = new XmlDocument();
+           xmlDocument.LoadXml(rep);
+
+
+            XmlNode root = xmlDocument.FirstChild;
+            if (root.HasChildNodes)
+            {
+                for (int i = 0; i < root.ChildNodes.Count; i++)
+                {
+                    Console.WriteLine(root.ChildNodes[i].InnerText);
+                    
+                }
+            }
+            int length = reply.ToString().Length;
+            try
+            {
+                if (length > 1000)
+                {
+                    Console.WriteLine("File Size optimal:"+length);
+                }
+            }
+            catch
+            {
+                Console.WriteLine("File Size less than 100 MB");
+            }
+            //  Console.WriteLine(rep);
+
         }
 
     }
@@ -88,6 +121,8 @@ namespace FileReaderService
             return new TraceMessageBehavior();
         }
     }
+
+
 
 
 

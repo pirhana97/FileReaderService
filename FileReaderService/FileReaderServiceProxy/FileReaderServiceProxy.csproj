@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SoapFormatter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=64d05efcff27afd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\SoapFormatter.1.0.11\lib\netstandard2.0\SoapFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -50,6 +53,9 @@
       <Project>{F2A30DC0-7205-400E-A557-A34069003DA3}</Project>
       <Name>FileReaderService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

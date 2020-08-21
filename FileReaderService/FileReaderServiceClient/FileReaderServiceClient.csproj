@@ -36,6 +36,9 @@
     <Reference Include="SautinSoft.Document, Version=4.5.6.17, Culture=neutral, PublicKeyToken=e759c76c7515592a, processorArchitecture=MSIL">
       <HintPath>..\packages\sautinsoft.document.4.5.6.17\lib\net461\SautinSoft.Document.dll</HintPath>
     </Reference>
+    <Reference Include="SoapFormatter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=64d05efcff27afd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\SoapFormatter.1.0.11\lib\netstandard2.0\SoapFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
